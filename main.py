@@ -25,14 +25,17 @@ def abort_existing_id(user_id):
 
 ##RESOURCES
 class UserLog(Resource):
+    #Get data from server
     def get(self, user_id):
         abort_invalid_id(user_id) #if invalid id abort get
         return names[user_id] #response must be serializable, i.e., json formats
     
-    def post(self, user_id):
+    #Update data from server
+    def put(self, user_id):
         return{"Hello World": 200}
 
-    def put(self, user_id):
+    #Post data on server
+    def post(self, user_id):
         print(request.method)
         print(request.form)
         abort_existing_id(user_id) #if existing id do not create
@@ -40,9 +43,15 @@ class UserLog(Resource):
         names[user_id] = args
         return names[user_id], 201 #201 is CREATED
 
+    #Remove data from server
+    def delete(self, user_id):
+        abort_invalid_id(user_id)
+        del names[user_id]
+        return {"Deleted": 204} #204 is DELETED SUCCESSFULLY
+
 ##we have also requested from the user a parameter with the appended section <>
 api.add_resource(UserLog, "/userlog/<int:user_id>")    #determine the root of the HelloWorld resource
-                                                            #we can access this resource via the url /helloworld
+                                                            #we can access this resource via the url /userlog
 
 if __name__ == "__main__":
-    app.run(debug = True) #only for DEV and QA env!
+    app.run(debug = True) #debug only for DEV and QA env!
