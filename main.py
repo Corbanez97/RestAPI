@@ -47,8 +47,9 @@ class UserLog(Resource):
     def delete(self, user_id):
         abort_invalid_id(user_id)
         del names[user_id]
-        return {"Deleted": 204} #204 is DELETED SUCCESSFULLY
-
+        return "", 204 #204 is DELETED SUCCESSFULLY
+        #Delete does not return a serializable response
+        
 ##we have also requested from the user a parameter with the appended section <>
 api.add_resource(UserLog, "/userlog/<int:user_id>")    #determine the root of the HelloWorld resource
                                                             #we can access this resource via the url /userlog

@@ -21,10 +21,10 @@ response = requests.post(BASE + "userlog/1001", args) #test abort existing id
 print("Test post existing id: ", response.json())
 
 response = requests.delete(BASE + "userlog/1001") #test delete
-print("Test delete: ", response.json())
+print("Test delete: ", response)
 
 response = requests.delete(BASE + "userlog/1007") #test abort existing id
-print("Test delete invalid id: ", response.json())
+print("Test delete invalid id: ", response)
 
 
 
