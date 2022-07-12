@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api, Resource, reqparse, abort
 
 #initializes the RestfulAPI
 app = Flask(__name__)
@@ -15,9 +15,14 @@ names = {1001: {"name": "Lucas", "age": 25, "job": "data engineer"},
             1002: {"name": "Pedro", "age": 29, "job": "rich"},
                 1003: {"name": "Miguel", "age": 22, "job": "dotô"}}
 
+def abort_invalid_id(user_id):
+    if user_id not in names:
+        abort(404, message = "Invalid user id.") #404 not found. Status is required!
+
 #resources
 class UserLog(Resource):
     def get(self, user_id):
+        abort_invalid_id(user_id)
         return names[user_id] #response must be serializable, i.e., json formats
     
     def post(self, user_id):

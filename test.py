@@ -6,6 +6,9 @@ BASE = "http://127.0.0.1:5000/" ##Running on FlaskAPI Server
 response = requests.get(BASE + "userlog/1001")
 print(response.json())
 
+response = requests.get(BASE + "userlog/1004") #test abort invalid id
+print(response.json())
+
 response = requests.post(BASE + "userlog/1001")
 print(response.json())
 
