@@ -15,14 +15,18 @@ names = {1001: {"name": "Lucas", "age": 25, "job": "data engineer"},
             1002: {"name": "Pedro", "age": 29, "job": "rich"},
                 1003: {"name": "Miguel", "age": 22, "job": "dotô"}}
 
+##VALIDATION
 def abort_invalid_id(user_id):
     if user_id not in names:
         abort(404, message = "Invalid user id.") #404 not found. Status is required!
+def abort_existing_id(user_id):
+    if user_id in names:
+        abort(409, message = "Existing user id.")
 
-#resources
+##RESOURCES
 class UserLog(Resource):
     def get(self, user_id):
-        abort_invalid_id(user_id)
+        abort_invalid_id(user_id) #if invalid id abort get
         return names[user_id] #response must be serializable, i.e., json formats
     
     def post(self, user_id):
@@ -31,6 +35,7 @@ class UserLog(Resource):
     def put(self, user_id):
         print(request.method)
         print(request.form)
+        abort_existing_id(user_id) #if existing id do not create
         args = names_put_args.parse_args()
         names[user_id] = args
         return names[user_id], 201 #201 is CREATED
